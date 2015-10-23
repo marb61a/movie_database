@@ -18,3 +18,25 @@ module.exports = function(router){
         });  
     });
 };
+
+    router.get('/add', function(req, res){
+        res.render('addmovies');
+    });
+
+    router.get('/details/:id', function(req, res){
+        Movie.findOne({_id: req.params.id}, function(err, movie){
+            if(err){
+                res.send(err);
+            } else {
+                var model = {
+                    movie: movie
+                }
+
+                res.render('details', model);
+            }
+        });
+    });
+
+    router.get('/edit/:id', function(req, res){
+        res.render('editmovies');
+    });
