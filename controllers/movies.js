@@ -11,7 +11,7 @@ module.exports = function(router){
         	} else {
         		var model = {
         			movies: movies
-        		}
+        		};
 
         		res.render('movies', model);
         	}
@@ -30,7 +30,7 @@ module.exports = function(router){
             } else {
                 var model = {
                     movie: movie
-                }
+                };
 
                 res.render('details', model);
             }
@@ -38,5 +38,51 @@ module.exports = function(router){
     });
 
     router.get('/edit/:id', function(req, res){
-        res.render('editmovies');
+       Movie.findOne({_id: req.params.id}, function(err, movie){
+            if(err){
+                res.send(err);
+            } else {
+                var model = {
+                    movie: movie
+                };
+
+                res.render('editmovies', model);
+            }
+        });
+    });
+    
+    router.post('/add', function(req, res){
+        var title = req.body.title && req.body.title.trim();
+        var release_date = req.body.release_date && req.body.release_date.trim();
+        var genre = req.body.genre && req.body.genre.trim();
+        var director = req.body.director && req.body.director.trim();
+        var plot = req.body.plot && req.body.plot.trim();
+        var trailer= req.body.trailer && req.body.trailer.trim();
+        var cover = req.body.cover && req.body.cover.trim();
+
+        if (title == '' || release_date == '') {
+            req.flash('error', "Please fill out required(*) fields");
+            res.location('/movies/add');
+            res.redirect('/movies/add');
+        }
+
+        var newMovie = new Movie({
+            title: title,
+            release_date: release_date,
+            genre: genre,
+            director: director,
+            plot: plot,
+            cover: cover,
+            trailer: trailer
+        });
+
+        newMovie.save(function(err){
+            if(err){
+                res.send(err);
+            } else {
+                req.flash('success', "Movie Saved");
+                res.location('/movies');
+                res.redirect('/movies');
+            }
+        });
     });
