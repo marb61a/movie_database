@@ -40,3 +40,7 @@ header {
 .side-nav li a:not(.button) {
   color: #ffffff !important;
 }
+/* line 40, css/app */
+[class*="column"] + [class*="column"]:last-child {
+  float: left;
+}
