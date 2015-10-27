@@ -4,6 +4,7 @@ var Movie = require("../models/movies");
 
 module.exports = function(router){
     var model = new Movie();
+    
     router.get('/', function (req, res) {
         Movie.find({}, function(err, movies){
         	if(err){
