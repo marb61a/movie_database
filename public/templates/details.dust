@@ -1,5 +1,5 @@
-{>"layouts/master" /}
-{<body}
+{>"layouts/master" /} 
+{<body} 
     <div class="row">
         <a href="/movies">Go Back</a>
         <br>
